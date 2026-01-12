@@ -16,7 +16,7 @@ keywords:
     - macOS
     - ARM
     - X64
-description: 提供各个平台的下载
+excerpt: 提供各个平台的下载
 ---
 
 # 简要说明

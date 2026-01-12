@@ -1,0 +1,86 @@
+# 首页配置
+home:
+  hero:
+    name: Shen
+    intro: "个人博客，分享一些日常和学习笔记" # 个人简介
+    avatar: images/avatar.png
+  posts: recent # recent: 最新文章 | recommend: 推荐文章
+
+# 所有文章
+articles:
+  path: 'posts' # 路由
+  per_page: 10 # 分页数
+  order_by: -date # 文章排序
+
+# 菜单栏
+menu:
+  - name: 文章 # 名称
+    url: /posts/ # 跳转链接
+  - name: 分类
+    url: /categories/
+  - name: 标签
+    url: /tags/
+  - name: 归档
+    url: /archives/
+  # - name: 友链
+  #   url: /friends/
+  # - name: 留言
+  #   url: /messages/
+  # - name: 关于
+  #   url: /about/
+
+comment:
+  enable: true
+  type: giscus # waline | giscus
+
+# Waline https://waline.js.org/
+waline:
+  serverURL:
+  options:
+
+# Giscus https://giscus.app/zh-CN
+giscus:
+  repo: QShen3/qshen3.github.io
+  repoid: R_kgDOQ1fOYA
+  category: Announcements
+  categoryid: DIC_kwDOQ1fOYM4C03q7
+  mapping: pathname
+  term: 0
+  reactionsenabled: 1
+  emitmetadata: 0
+  inputposition: bottom
+  loading: bottom
+
+search:
+  enable: true
+  type: pagefind # algolia | pagefind
+
+# Docsearch https://docsearch.algolia.com/apply/
+algolia:
+  appId: 
+  apiKey: 
+  indexName: 
+
+# 友链模块
+friends:
+  # - name: xxx's blog
+  #   avatar: https://xx.png
+  #   link: https://blog.xxx.com
+  #   desc: xxx
+
+footer:
+  builtUpTime: 2020-06-07 23:06:44 # 2020-05-20 13:14:00
+
+# 社交链接
+socialLink:
+  - name: Email
+    link: mailto:qazxdrcssc2006@163.com
+  - name: Github # 名称
+    link: https://github.com/QShen3 # 跳转链接
+  # - name: RSS
+  #   link: rss link
+
+# 主题色
+primaryColor: '#10b981'
+
+favicon: images/myFavicon.ico # Favicon 图标

@@ -16,7 +16,7 @@ keywords:
   - kcptun
   - docker
   - 容器
-description: 更恶劣网络环境下的优化
+excerpt: 更恶劣网络环境下的优化
 ---
 
 
