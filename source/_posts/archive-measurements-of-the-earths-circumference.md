@@ -9,7 +9,7 @@ keywords:
   - 大学
   - 竞赛
   - 地理
-description: 我也是上过大学的
+excerpt: 我也是上过大学的
 ---
 
 

@@ -10,7 +10,7 @@ keywords:
   - 佐贺
   - 偶像
   - 夕雾
-description: 佐贺事变！
+excerpt: 佐贺事变！
 ---
 
 
