@@ -1,12 +1,18 @@
 ---
-title: 搬家图书盘点（2021）
-date: 2021-07-19 00:33:42
-tags: 杂项
-categories: 祭坛洞窟
+title: '[存档]佐贺偶像'
+date: 2021-06-12 00:50:54
+tags:
+  - 存档
+  - 杂谈
+categories: 陆行鸟森
 keywords:
-  - 书
-description: 2021图书盘点
+  - 动画
+  - 佐贺
+  - 偶像
+  - 夕雾
+description: 佐贺事变！
 ---
+
 
 
 
