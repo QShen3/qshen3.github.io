@@ -45,11 +45,11 @@ giscus:
   category: Announcements
   categoryid: DIC_kwDOQ1fOYM4C03q7
   mapping: pathname
-  term: 0
+  strict: 0
   reactionsenabled: 1
   emitmetadata: 0
   inputposition: bottom
-  loading: bottom
+  loading: lazy
 
 search:
   enable: true
