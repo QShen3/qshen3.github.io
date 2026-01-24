@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>基于Proxmox ve的个人网络环境搭建 | 浮游大陆</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="keywords" content="QShen,qazxdrcssc2006,blog">
+  <meta name="theme-color" content="#10b981">
+
+  <link rel="canonical" href="https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/">
+
+  
+    <link rel="shortcut icon" href="/images/myFavicon.ico">
+  
+
+  <meta name="description" content="没有需求就创造需求！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Proxmox ve的个人网络环境搭建">
+<meta property="og:url" content="https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/index.html">
+<meta property="og:site_name" content="浮游大陆">
+<meta property="og:description" content="没有需求就创造需求！">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.1.webp">
+<meta property="og:image" content="https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.2.webp">
+<meta property="og:image" content="https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.3.webp">
+<meta property="og:image" content="https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.4.webp">
+<meta property="og:image" content="https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.5.webp">
+<meta property="og:image" content="https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.6.webp">
+<meta property="og:image" content="https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.7.webp">
+<meta property="og:image" content="https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.8.webp">
+<meta property="og:image" content="https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.9.webp">
+<meta property="og:image" content="https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.10.webp">
+<meta property="og:image" content="https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.11.webp">
+<meta property="og:image" content="https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.12.webp">
+<meta property="og:image" content="https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.13.webp">
+<meta property="article:published_time" content="2020-08-07T07:01:55.000Z">
+<meta property="article:modified_time" content="2020-08-07T07:01:55.000Z">
+<meta property="article:author" content="Shen">
+<meta property="article:tag" content="PVE">
+<meta property="article:tag" content="网络">
+<meta property="article:tag" content="虚拟化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.1.webp">
+  <meta name="generator" content="Hexo 8.1.1">
+  <script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.qshen.cc/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/"},"headline":"基于Proxmox ve的个人网络环境搭建","description":"没有需求就创造需求！","datePublished":"2020-08-07T07:01:55.000Z","dateModified":"2020-08-07T07:01:55.000Z","author":{"@type":"Person","name":"Shen"},"publisher":{"@type":"Organization","name":"浮游大陆","logo":{"@type":"ImageObject","url":"https://blog.qshen.cc/images/myFavicon.ico"}}}
+</script>
+
+  
+  
+<link rel="stylesheet" href="/css/main.css">
+
+  <style>
+    :root {
+      --sea-color-primary: #10b981;
+      
+      --sea-font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      
+    }
+  </style>
+
+  
+<script src="/js/theme_mode.js"></script>
+
+</head>
+<body>
+  <header class="sea-header">
+    <nav class="sea-nav-wrap">
+  <div class="sea-nav-logo" title="Shen's blog">
+    <a href="/">浮游大陆</a>
+  </div>
+  <div class="sea-nav-menus">
+    <div id="sea-nav-toggle">
+      <svg t="1716965724278" class="sea-svg-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10878" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M950.857143 768v73.142857c0 20.004571-16.566857 36.571429-36.571429 36.571429H109.714286c-20.004571 0-36.571429-16.566857-36.571429-36.571429v-73.142857c0-20.004571 16.566857-36.571429 36.571429-36.571429h804.571428c20.004571 0 36.571429 16.566857 36.571429 36.571429z m0-292.571429v73.142858c0 20.004571-16.566857 36.571429-36.571429 36.571428H109.714286c-20.004571 0-36.571429-16.566857-36.571429-36.571428v-73.142858c0-20.004571 16.566857-36.571429 36.571429-36.571428h804.571428c20.004571 0 36.571429 16.566857 36.571429 36.571428z m0-292.571428v73.142857c0 20.004571-16.566857 36.571429-36.571429 36.571429H109.714286c-20.004571 0-36.571429-16.566857-36.571429-36.571429V182.857143c0-20.004571 16.566857-36.571429 36.571429-36.571429h804.571428c20.004571 0 36.571429 16.566857 36.571429 36.571429z" p-id="10879"></path></svg>
+    </div>
+
+    <div id="sea-nav-dimmer"></div>
+<div class="sea-menu-wrap">
+  
+    <a
+      class="sea-menu-link "
+      
+      href="/posts/"
+    >
+      文章
+    </a>
+  
+    <a
+      class="sea-menu-link "
+      
+      href="/categories/"
+    >
+      分类
+    </a>
+  
+    <a
+      class="sea-menu-link "
+      
+      href="/tags/"
+    >
+      标签
+    </a>
+  
+    <a
+      class="sea-menu-link "
+      
+      href="/archives/"
+    >
+      归档
+    </a>
+  
+
+  <span class="sea-menu-sep">|</span>
+
+  
+  
+
+  
+    <a href="/search" title="Search">
+  <span class="sea-menu-icon" id="sea-search-icon">
+    <svg t="1725410662861" class="sea-svg-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5552" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M400.085333 151.210667c-89.059556 0-172.672 47.616-218.197333 124.273777a14.222222 14.222222 0 1 0 24.462222 14.535112c40.433778-68.067556 114.659556-110.364444 193.735111-110.364445a14.222222 14.222222 0 1 0 0-28.444444zM170.197333 336.298667a14.236444 14.236444 0 0 0-17.080889 10.609777c-4.252444 18.147556-6.656 29.397333-6.656 49.592889a14.222222 14.222222 0 1 0 28.444445 0c0-17.137778 1.92-26.083556 5.902222-43.121777a14.222222 14.222222 0 0 0-10.609778-17.080889z" fill="" p-id="5553"></path><path d="M947.384889 821.944889L717.809778 592.384a70.584889 70.584889 0 0 0-16.64-12.472889 346.254222 346.254222 0 0 0 47.36-175.089778c0-192.142222-156.302222-348.444444-348.444445-348.444444-192.128 0-348.444444 156.302222-348.444444 348.444444s156.316444 348.430222 348.444444 348.430223c68.408889 0 132.209778-19.882667 186.083556-54.058667 2.915556 4.821333 6.570667 9.472 10.951111 13.852444l229.575111 229.589334a84.849778 84.849778 0 0 0 60.359111 24.974222 84.821333 84.821333 0 0 0 60.344889-24.974222 84.778667 84.778667 0 0 0 24.974222-60.330667 84.920889 84.920889 0 0 0-24.988444-60.359111zM108.529778 404.835556c0-160.768 130.787556-291.555556 291.555555-291.555556 160.782222 0 291.555556 130.787556 291.555556 291.555556 0 160.782222-130.801778 291.541333-291.555556 291.541333-160.768 0-291.555556-130.759111-291.555555-291.541333z m798.620444 497.578666c-10.766222 10.723556-29.496889 10.723556-40.248889 0L637.340444 672.839111c-1.991111-1.976889-2.730667-3.299556-2.830222-3.299555 0.042667-0.611556 0.824889-6.471111 17.080889-22.698667 16.213333-16.256 22.072889-16.995556 22.257778-17.109333 0.369778 0.113778 1.692444 0.853333 3.740444 2.887111l229.546667 229.560889c5.390222 5.390222 8.334222 12.529778 8.334222 20.138666a28.401778 28.401778 0 0 1-8.32 20.096z" p-id="5554"></path></svg>
+  </span>
+</a>
+  
+
+
+  <span class="sea-menu-icon" id="sea-theme-dark">
+    <svg t="1725413107294" class="sea-svg-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="10118" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M557.553778 976.355556c-257.265778 0-466.56-207.160889-466.56-464.426667 0-253.923556 206.577778-464.284444 460.501333-464.284445h0.355556c10.766222 0 20.622222 3.953778 25.443555 13.610667 4.878222 9.756444 3.740444 20.394667-2.915555 29.027556-55.722667 72.220444-85.162667 158.108444-85.162667 249.372444 0 225.891556 183.779556 409.386667 409.671111 409.386667l5.248-0.256c10.325333-0.142222 20.977778 5.859556 25.841778 15.644444a28.302222 28.302222 0 0 1-2.915556 30.051556C837.902222 910.08 703.203556 976.355556 557.553778 976.355556zM495.274667 105.016889C299.192889 135.281778 147.882667 306.161778 147.882667 509.809778c0 225.877333 183.779556 409.656889 409.671111 409.656889 108.686222 0 210.403556-42.055111 286.577778-116.977778-231.566222-27.192889-411.804444-224.625778-411.804445-463.36 0-83.427556 21.617778-163.299556 62.947556-234.112z" fill="" p-id="10119"></path><path d="M578.830222 879.132444c-186.865778 0-345.784889-133.418667-377.841778-317.269333a14.222222 14.222222 0 1 1 28.017778-4.878222c29.681778 170.183111 176.810667 293.703111 349.824 293.703111a14.222222 14.222222 0 1 1 0 28.444444zM209.991111 531.2c-7.537778 0-13.838222-6.997333-14.193778-14.606222-0.312889-6.584889-0.483556-13.795556-0.483555-20.465778 0-7.864889 6.357333-14.492444 14.222222-14.492444s14.222222 6.229333 14.222222 14.094222c0 6.229333 0.170667 13.425778 0.455111 19.584 0.369778 7.850667-5.674667 15.886222-13.525333 15.886222h-0.696889z" fill="" p-id="10120"></path><path d="M622.350222 309.930667m-25.344 0a25.344 25.344 0 1 0 50.688 0 25.344 25.344 0 1 0-50.688 0Z" fill="" p-id="10121"></path><path d="M787.072 188.273778m-25.344 0a25.344 25.344 0 1 0 50.688 0 25.344 25.344 0 1 0-50.688 0Z" fill="" p-id="10122"></path><path d="M731.960889 415.303111m-25.344 0a25.344 25.344 0 1 0 50.688 0 25.344 25.344 0 1 0-50.688 0Z" p-id="10123"></path></svg>
+  </span>
+  <span class="sea-menu-icon" id="sea-theme-light">
+    <svg t="1725410359322" class="sea-svg-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4274" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M512 768c-141.376 0-256-114.624-256-256s114.624-256 256-256 256 114.624 256 256-114.624 256-256 256z m0-85.333333a170.666667 170.666667 0 1 0 0-341.333334 170.666667 170.666667 0 0 0 0 341.333334zM469.333333 85.333333a42.666667 42.666667 0 1 1 85.333334 0v85.333334a42.666667 42.666667 0 1 1-85.333334 0V85.333333z m0 768a42.666667 42.666667 0 1 1 85.333334 0v85.333334a42.666667 42.666667 0 1 1-85.333334 0v-85.333334zM85.333333 554.666667a42.666667 42.666667 0 1 1 0-85.333334h85.333334a42.666667 42.666667 0 1 1 0 85.333334H85.333333z m768 0a42.666667 42.666667 0 1 1 0-85.333334h85.333334a42.666667 42.666667 0 1 1 0 85.333334h-85.333334zM161.834667 222.165333a42.666667 42.666667 0 0 1 60.330666-60.330666l64 64a42.666667 42.666667 0 0 1-60.330666 60.330666l-64-64z m576 576a42.666667 42.666667 0 0 1 60.330666-60.330666l64 64a42.666667 42.666667 0 0 1-60.330666 60.330666l-64-64z m-515.669334 64a42.666667 42.666667 0 0 1-60.330666-60.330666l64-64a42.666667 42.666667 0 0 1 60.330666 60.330666l-64 64z m576-576a42.666667 42.666667 0 0 1-60.330666-60.330666l64-64a42.666667 42.666667 0 0 1 60.330666 60.330666l-64 64z" p-id="4275"></path></svg>
+  </span>
+
+  <span id="sea-menu-close-icon">
+    <svg t="1725435896874" class="sea-svg-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4408" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M556.8 512l265.6-265.6c12.8-12.8 12.8-32 0-44.8s-32-12.8-44.8 0L512 467.2 246.4 201.6c-12.8-12.8-32-12.8-44.8 0s-12.8 32 0 44.8l265.6 265.6-265.6 265.6c-12.8 12.8-12.8 32 0 44.8 6.4 6.4 12.8 9.6 22.4 9.6s16-3.2 22.4-9.6l265.6-265.6 265.6 265.6c6.4 6.4 16 9.6 22.4 9.6s16-3.2 22.4-9.6c12.8-12.8 12.8-32 0-44.8L556.8 512z" p-id="4409"></path></svg>
+  </span>
+</div>
+  </div>
+</nav>
+  </header>
+  <main id="sea-main-wrapper" data-pagefind-body>
+    <article class="sea-page-card-wrapper">
+  <header class="sea-article-header">
+    <h1 class="sea-article-title">基于Proxmox ve的个人网络环境搭建</h1>
+    
+      <div class="sea-post-meta sea-post-meta__center">
+        <div class="sea-post-time">
+  <svg t="1716964550804" class="sea-svg-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2621" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M805.49888 981.49888l-602.3168-0.76288c-86.59456-8.192-154.56768-81.3056-154.56768-170.01472L48.6144 291.73248c0-94.1568 76.60032-170.75712 170.7776-170.75712l586.10176 0c94.1568 0 170.73152 76.60032 170.73152 170.75712L976.22528 810.7008C976.2304 904.87296 899.63008 981.49888 805.49888 981.49888L805.49888 981.49888zM219.3664 190.57152c-55.79776 0-101.20192 45.38368-101.20192 101.18144l0 518.96832c0 55.79776 45.40416 101.20704 101.20192 101.20704l586.13248 0c55.77728 0 101.16096-45.40928 101.16096-101.20704L906.65984 291.73248c0-55.79776-45.38368-101.18656-101.16096-101.18656L219.3664 190.54592 219.3664 190.57152zM698.84416 290.51904c-25.60512 0-46.38208-20.77696-46.38208-46.38208l0-158.6688c0-25.6 20.77696-46.38208 46.38208-46.38208 25.6 0 46.38208 20.78208 46.38208 46.38208L745.22624 244.1216C745.22624 269.7472 724.46976 290.51904 698.84416 290.51904L698.84416 290.51904zM315.65824 290.51904c-25.60512 0-46.38208-20.77696-46.38208-46.38208l0-158.6688c0-25.6 20.77696-46.38208 46.38208-46.38208 25.6 0 46.38208 20.78208 46.38208 46.38208L362.04032 244.1216C362.04032 269.7472 341.28896 290.51904 315.65824 290.51904L315.65824 290.51904zM534.8864 794.78784l-44.27264 0c-25.6 0-46.38208-20.77696-46.38208-46.38208 0-25.6 20.78208-46.38208 46.38208-46.38208l44.27264 0c25.6 0 46.38208 20.78208 46.38208 46.38208C581.26848 774.01088 560.4864 794.78784 534.8864 794.78784L534.8864 794.78784zM930.79552 452.608 121.24672 452.608c-25.60512 0-46.38208-20.78208-46.38208-46.38208 0-25.60512 20.77696-46.38208 46.38208-46.38208l809.5744 0c25.6 0 46.38208 20.77696 46.38208 46.38208C977.2032 431.82592 956.42624 452.608 930.79552 452.608L930.79552 452.608zM327.92576 649.03168l-44.27264 0c-25.6 0-46.38208-20.78208-46.38208-46.38208 0-25.60512 20.78208-46.38208 46.38208-46.38208l44.27264 0c25.6 0 46.38208 20.77696 46.38208 46.38208C374.30784 628.25472 353.52576 649.03168 327.92576 649.03168L327.92576 649.03168zM534.8864 649.03168l-44.27264 0c-25.6 0-46.38208-20.78208-46.38208-46.38208 0-25.60512 20.78208-46.38208 46.38208-46.38208l44.27264 0c25.6 0 46.38208 20.77696 46.38208 46.38208S560.4864 649.03168 534.8864 649.03168L534.8864 649.03168zM741.27872 649.03168l-44.26752 0c-25.60512 0-46.38208-20.78208-46.38208-46.38208 0-25.60512 20.77696-46.38208 46.38208-46.38208l44.26752 0c25.60512 0 46.38208 20.77696 46.38208 46.38208C787.6608 628.25472 766.90944 649.03168 741.27872 649.03168L741.27872 649.03168zM327.92576 794.78784l-44.27264 0c-25.6 0-46.38208-20.77696-46.38208-46.38208 0-25.6 20.78208-46.38208 46.38208-46.38208l44.27264 0c25.6 0 46.38208 20.78208 46.38208 46.38208C374.30784 774.01088 353.52576 794.78784 327.92576 794.78784L327.92576 794.78784zM741.27872 794.78784l-44.26752 0c-25.60512 0-46.38208-20.77696-46.38208-46.38208 0-25.6 20.77696-46.38208 46.38208-46.38208l44.26752 0c25.60512 0 46.38208 20.78208 46.38208 46.38208C787.6608 774.01088 766.90944 794.78784 741.27872 794.78784L741.27872 794.78784z" p-id="2622"></path></svg>
+  <time datetime="2020-08-07T07:01:55.000Z">2020-08-07</time>
+</div>
+        
+  <div class="sea-post-categories">
+    <svg t="1716964680422" class="sea-svg-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4550" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M810.666667 85.333333a85.333333 85.333333 0 0 1 85.333333 85.333334v152.021333c36.821333 9.493333 64 42.88 64 82.645333v405.333334a128 128 0 0 1-128 128H192a128 128 0 0 1-128-128V298.666667a85.376 85.376 0 0 1 64-82.645334V170.666667a85.333333 85.333333 0 0 1 85.333333-85.333334h597.333334zM128.149333 296.170667L128 298.666667v512a64 64 0 0 0 60.245333 63.893333L192 874.666667h640a64 64 0 0 0 63.893333-60.245334L896 810.666667V405.333333a21.333333 21.333333 0 0 0-18.837333-21.184L874.666667 384H638.165333l-122.069333-101.717333a21.333333 21.333333 0 0 0-10.688-4.736l-2.986667-0.213334H149.333333a21.333333 21.333333 0 0 0-21.184 18.837334zM535.189333 213.333333l127.978667 106.666667H832V170.666667a21.333333 21.333333 0 0 0-18.837333-21.184L810.666667 149.333333H213.333333a21.333333 21.333333 0 0 0-21.184 18.837334L192 170.666667v42.666666h343.168z" p-id="4551"></path></svg>
+    <a class="category-link" href="/categories/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/">阿加斯城</a>
+  </div>
+
+        
+  <div class="sea-post-tags">
+    <svg t="1716964811431" class="sea-svg-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6117" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M384 977.152c-20.5312 0-39.8336-7.9872-54.3232-22.4256l-260.4032-260.4032c-14.4896-14.4896-22.4256-33.7408-22.4256-54.3232s7.9872-39.8336 22.4256-54.3232l439.6032-439.6032c24.9344-24.9344 70.2464-43.7248 105.5232-43.7248h230.4c42.3424 0 76.8 34.4576 76.8 76.8v230.4c0 35.2256-18.7904 80.5888-43.6736 105.5232l-439.6032 439.6032a76.1856 76.1856 0 0 1-54.3232 22.4256zM614.4 153.6c-21.248 0-54.272 13.6704-69.2736 28.7232l-439.6032 439.6032c-4.8128 4.8128-7.424 11.2128-7.424 18.1248s2.6624 13.312 7.424 18.0736l260.4032 260.4032c4.8128 4.8128 11.2128 7.424 18.1248 7.424s13.312-2.6624 18.1248-7.424l439.6032-439.6032c15.0016-15.0016 28.7232-48.0768 28.7232-69.3248V179.2a25.6 25.6 0 0 0-25.6-25.6h-230.4z" p-id="6118"></path><path d="M742.4 358.4c-42.3424 0-76.8-34.4576-76.8-76.8S700.0576 204.8 742.4 204.8s76.8 34.4576 76.8 76.8S784.7424 358.4 742.4 358.4z m0-102.4a25.6 25.6 0 1 0 0 51.2 25.6 25.6 0 0 0 0-51.2z" p-id="6119"></path></svg>
+    <a class="tag-link" href="/tags/PVE/" rel="tag">PVE</a> , <a class="tag-link" href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag">网络</a> , <a class="tag-link" href="/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/" rel="tag">虚拟化</a>
+  </div>
+
+      </div>
+    
+  </header>
+  <div class="sea-doc">
+    
+    <div class="sea-article-content">
+      <p>终于，终于，时隔多年之后，我又开始用基于XXX来做文章的标题了！！！</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>　　正如之前的预告，这篇文章作为我博客建立的重头戏，和大家见面了！内容的话，是对我目前家里的个人网络环境的介绍。应该会重点介绍搭建的过程。虽说可能充满了槽点，但是我觉得还是很有趣的。在CHH里面看了那么多奇怪的方案，大多数可能更加注重的是性能。而我，财力有限，又没有大house，就只能在趣味性上下手了。<br>　　这篇文章并不是教程，只是一篇流水账式的介绍，所以并不会详细的写一些细节内容，比如配置文件什么的。</p>
+<h1 id="可能是虚假的需求？"><a href="#可能是虚假的需求？" class="headerlink" title="可能是虚假的需求？"></a>可能是虚假的需求？</h1><p>　　一般来说，个人的网络环境没什么好搭建的，一根网线，一个无线路由器，接上，配置一个密码，就能涵盖几乎所有正常需求了。不过嘛，一方面，在我们这个不正常的环境下，正常需求肯定是不够的，另一方面，需求这种东西，怎么能说满足就能满足呢，这样人类还怎么进步呢，对吧！所以说，没有需求，也要造出一些奇奇怪怪的需求，哪怕是虚假的，这样才能推动个人，啊，不，不对，是人类的进步。</p>
+<p>　　回归正题，首先，第一点需求就是可以随时随地的访问一些无法访问的网站。想要随时随地，肯定就需要一个7*24小时运行的服务了。去年的时候，做过一些前置的试验，购买了一台树莓派，在上面部署了SS的服务。树莓派接上家里的路由器，路由器通过DMZ把相应的端口暴露在公网上。用了一段时间，倒是没什么大问题。不过显然有很多不爽的地方。首先，所有的终端都需要SS的客户端。虽然说现在几乎所有的平台和系统都有SS的客户端，但是像iOS就很难搞，还需要切换一个非国区的账号才行。这样其实非常麻烦，想一想，如果有妹子想要借你的网络来用一用，你还要手把手教一教怎么注册和切换一个非国区的账号，是不是就觉得很烦（小声 其实我可以）。第二点，频繁的连接和断开让人很是恼火。当我想要访问某些不能访问的网站时，我可能需要连接我的树莓派，当我访问国内网站的时候，为了更快的速度，我又需要断开连接。那当我想要同时访问的时候呢，就只能保持连接硬着头皮上了，来怀念1M拨号上网时的美好回忆。这让上网体验充满了割裂感。虽说一些SS的客户端或者浏览器有解决方案，但依然只支持特定的平台或者软件。总结下来的话，关于这一方面的需求，我的底线是：</p>
+<ul>
+<li>对于外部终端来说，不需要下载额外的软件。</li>
+<li>网络内部实现透明代理</li>
+<li>内置类似PAC的功能</li>
+</ul>
+<p>　　第二点需求，就是目前大家看到，正在支持这个博客的Web服务。只不过除了博客之外，我还需要一个GitLab，来放自己的code和跑各种CI。因为最早在规划的时候，GitHub的私人仓库还没有完全开放，并且也没有GitHub action什么的。GitLab可以自己Host，就很吸引人了。</p>
+<p>　　最后一点需求是常见的，必不可少的NAS。随时随地，都能看下好的片子还是很吸引人的。</p>
+<h1 id="搭建的过程"><a href="#搭建的过程" class="headerlink" title="搭建的过程"></a>搭建的过程</h1><h2 id="基本网络环境的搭建"><a href="#基本网络环境的搭建" class="headerlink" title="基本网络环境的搭建"></a>基本网络环境的搭建</h2><p>　　首先从第一点需求开始，想要符合上面三点要求的话，最合适的方案应该是软路由了。也就是说需要一个单独的硬件。不过考虑到后面其它两点需求以及我的财力，做了一个大胆的方案，把软路由装到虚拟机里面。毕竟总不能每一个需求整一台电脑。虽然最后结果看着很爽，但是也问题多多……这个就是后话了。虚拟化环境选择了Proxmox ve（下面简称PVE），开箱即用，很舒服。硬件选择了华擎的Deskmini h310+9900T，核心数足够多，够开好几个虚拟机，功耗35W也在可以接受的范围内。这个选择纯属个人喜好，其实应该还有其它更好的选择。因为华擎的这块主板只有一个网口，就又搞了一块USB的千兆网卡。不得不说，现在的东西却是越来越方便了，USB网卡都是免驱的。软路由系统的选择上，我看网上不少人推荐使用ikuai在加上一个OpenWRT的旁路由，有些不能理解，OpenWRT不是万能的吗。一开始让我用ikuai我是拒绝的，就搞了OpenWRT+OpenWRT的方案，一个充当主路由，一个充当旁路由，也就是开启透明代理的网关。可惜中间遇到了这样那样的奇怪问题，折腾了太久……不得不拾起了网友们的成熟方案😭。最终采用了ikuai主路由，OpenWRT旁路由的方案。方案画出来的话大概如下图所示：<br><img src="/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.1.webp" alt="3.1"><br>　　系统里有两张网卡，我们称网卡0和网卡1，装好第一个虚拟机ikuai之后，首先把两张网卡都桥接给ikuai，在ikuai中设置，1网卡设置为WAN口，设置好后连接光猫，0网口设置为LAN口，连接充当AP的无线路由器（因为这里不需要它的路由功能，所以记得也要连无线路由器的LAN口）。网段我选择了192.168.100.0&#x2F;24这个网段。（我这个光猫没有破解，没有办法选择桥接模式，只能选择路由模式，占了192.168.1.0&#x2F;24这个网段）当然，PVE自己本身的IP需要静态设置，设置大概如下：<br><img src="/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.2.webp" alt="3.2"><br>其中192.168.100.1就是ikuai的IP，PVE的IP静态设置为了192.168.100.2。当然，为了方便，我把充当AP的无线路由器IP也设置成了192.168.100.3。注意，这个无线路由器现在只有交换功能，没有路由功能，其它设备，包括无线和有线设备，都连接在它上边。</p>
+<p>　　设置好主路由，网络的一切功能应该就正常了。可以接下来设置充当网关的旁路由，安装OpenWRT，只需要把LAN口桥接过去就好。同样为了方便，OpenWRT我给设置了静态的IP地址192.168.100.4。<br><img src="/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.3.webp" alt="3.3"><br>因为这里OpenWRT只充当了网关的作用，所以DHCP什么的一类功能都关掉。在ikuai里面设置好DHCP服务器就好了，把网关指向OpenWRT，如下：<br><img src="/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.4.webp" alt="3.4"><br>都设置好之后可以tracert试一试：<br><img src="/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.5.webp" alt="3.5"><br>可以看到走得路径正好和我们设置的一样，先去了OpenWRT，再去了ikuai，再去了我的光猫，之后走出了家里的网络。另外，大家也可以看到我给家里的设备都增加了域名映射，这也是OpenWRT的内置功能之一，非常方便。<br><img src="/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.6.webp" alt="3.6"></p>
+<p>　　现在就可以在OpenWRT上搞透明代理了。虽然我个人不喜欢v2ray本身，但是还是很喜欢他的客户端以及OpenWRT上的v2ray插件的。我使用的方案是SS+kcptun，具体可以参考这里：<a target="_blank" rel="noopener" href="https://github.com/xtaci/kcptun">https://github.com/xtaci/kcptun</a> 。结构简单来说就是下面这张图：<br><img src="/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.7.webp" alt="3.7"><br>kcptun的客户端虽然本来也可以跑在OpenWRT里面，但是既然我们都搞虚拟化了，为了方便维护和管理，以及性能上的考虑，就不把kcptun的客户端放在OpenWRT里面了。新建一个单独的Debian虚拟机，作为主服务器，在里面安装Docker，kcptun客户端可以跑在Docker里面。这样维护起来就很轻松了。后期升级什么的也方便。<br>　　这一套虽然看上去有点复杂，至少目前看起来还算稳定。我有一台Vultr美国的VPS，又在阿里云上买了一台香港的轻量服务器，所以一个月是2.5美刀+24人民币。两台服务器做负载均衡，美国路线的话YouTube 720P没有问题，香港路线的话1080P没有问题。总之感谢OpenWRT上的v2ray插件，透明代理和流量的自动分流都可以很轻松的设置。<br>　　这一部分设置完成后，大概的结构如下图：<br><img src="/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.8.webp" alt="3.8"></p>
+<p>　　到目前为止，在局域网环境之下，所有的设备应该都可以自由访问外网，无论是通过WiFi连接还是通过有线连接。可是还没有一个对外的服务。不过这个时候，对外服务的搭建就简单多了，我只需要在Server里面再部署一个兼容各个平台的VPN服务就行了。目前看起来，对于L2TP这样一种古老的协议来说，Windows，Android，iOS还有Mac OS都提供了比较好的支持，正好也有现成的Docker image。如果说像L2TP这样的协议部署在外网的话，那肯定是不能用，但是部署在国内的话，看起来就基本没什么限制了。也不应该有什么限制，毕竟对于小企业的话，这也是正常需求之一。所以上面那幅图里面就要再加一部分了。<br><img src="/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.9.webp" alt="3.9"><br>VPN服务暴露在了Server的500和4500端口上，在ikuai中设置端口映射，映射到ikuai的相应端口上，再在光猫中设置端口映射，映射到公网IP的相应端口上。</p>
+<h2 id="Web服务的搭建"><a href="#Web服务的搭建" class="headerlink" title="Web服务的搭建"></a>Web服务的搭建</h2><p>　　其实在上一节中，主要的框架都已经搭好了，所有的Web服务只需要像kcptun一样，部署在Docker里面就好了。不过这样就有了一个问题，外界该如何访问这些服务。先前的VPN服务倒还好，因为有自己特定的端口，直接把相应的端口层层映射到公网IP上就好。但是Web服务只有标准的80&#x2F;443端口（在网站地址后面带端口号的话实在是太丑了），如果部署多个Web服务的话，必然会冲突。解决方案也是有的，毕竟这也算是一个常见的问题，比较合乎我心意的是通过host来进行反向代理。也就是说虽然不同的url解析到了同样的地址，但是作为入口的反向代理服务会根据访问的url来将请求转发到不同的Web服务上面，这样就解决了冲突。本来是想用Nginx来实现的，但是写配置文件实在麻烦。正好之前在浏览GitHub看到了一个项目，Traefix，配置简单，提供官方Docker image，可以完美解决我的问题。所以在Server上部署了Traefik，绑定80和443端口，暴露在公网上。而其它Web服务绑定其它端口，不需要暴露在外。以后每增加一个Web服务，就只要在Traefik里面增加一段配置，将相应url的访问转发到对应的端口上。对于Gitlab，官方有提供使用Docker部署的教程，而对于博客，我自己手动制作了Docker镜像。除了上面两个，我还部署了Portainer，一个可以方便管理Docker的Web服务：<br><img src="/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.10.webp" alt="3.10"><br>　　至此，是不是觉得很完美。但是有一个致命的问题被忽略了，网站没有备案的话是无法上线的！而且，我现在这样子也是没有办法备案的。在非专用的线路上开通Web服务本身就是不合规的，更不要说给一个不合规的东西备案。这几乎是一个无解的问题。想来想去，最后想到了一个折衷方案。对于在非大陆地区的Web服务来说，是不需要备案的（虽然有被墙的风险）。如果非要把服务部署在家里还不想开放80&#x2F;443端口的话，就只能搞一台非大陆地区的服务器，通过内网穿透的方式让服务在境外“上线”了。结果就是我又搞了一台阿里云香港的轻量服务器（成本+24元&#x2F;月）……好在主要几个地区测试的结果来看，延迟还可以接受，尤其是珠三角地区，基本和访问大陆网站的速度一样快。因为之前有朋友推荐过frp，看下来实现内网穿透也很方便，就又在Server里部署了frp。这样，家里就没有任何Web服务暴露在公网环境当中了，所有外部的Web请求都会走frp。网络结构变的越来越复杂了：<br><img src="/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.11.webp" alt="3.11"><br>　　关于Web服务，最后还有一点想说的就是TLS证书的问题。Gitlab比较好，把let’s encrypt整合进了自己的Docker image。自己的博客的话，也是用得let’s encrypt。本来想搞一个通配证书的，不过看到普通证书有方便使用的certbot，一键部署，一键刷新。那就没必要折腾自己了。</p>
+<h2 id="NAS的搭建"><a href="#NAS的搭建" class="headerlink" title="NAS的搭建"></a>NAS的搭建</h2><p>　　相比与上面提到的两项服务，NAS其实应该是更常见的一种加用服务。如果说家里有多台设备，想在任何时间都可以访问同样的资源，那最好的做法就是把资源存储在服务器里面，然后通过网络进行访问，而不是在每一个终端里复制一份。</p>
+<p>　　传统上，一般有两种解决方案。对于需求比较简单的轻量用户来说，许多路由器就可以充当NAS，只需要在USB口上接上外接硬盘就可以。对于需求比较复杂，负载比较重的用户来说，会推荐使用单独的硬件解决方案。比如说在国内很流行的群晖，他们就出售包括硬件，软件在内的一整套解决方案。我的情况的话，大致介于两者之间。一方面，我希望我的NAS可以支持多种文件系统（NTFS、exFAT、ext4等），支持多种网络存储协议（Samba、FTP、NFS等），支持常规下载任务和BT下载任务，另一方面，因为只有我一个人使用，存储量，网络负载等都很小。所以还是采用了折衷的解决方案，像软路由那样，搞一个软NAS。其实就是再在PVE里面开一个虚拟机，并且把这块主板的两个SATA口和一个SD卡槽直通到这个虚拟机里面。系统上，在考察之后，选择了同样是基于Debian的openmediavault（后面简称OMV）。虽然黑群晖也很流行，但是毕竟是“黑”群晖，就像是黑苹果一样，不仅不能升级，还会遇到各种各样的问题，况且用起来还不怎么自由。图里就要再加上一部分了：<br><img src="/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.12.webp" alt="3.12"><br>　　因为是基于Debian，大部分内容都可以DIY，比如对NTFS和对exFAT的支持等。不过好歹OMV也是专门为NAS设计的，大部分功能还是有的，比如Samba，FTP，NFS等。下载也有基于Aria2和Transmission的插件，正好前不久度盘还推出了Linux版，加上前面两个插件基本上涵盖了所有的下载需求。（百度不是搞限速吗，那我就7*24小时给你挂着，哈哈）主板只有两个SATA口，就装了两块2T的硬盘。因为目前7nm的2.5寸机械硬盘最大就是2T的。固态硬盘的话倒是有4T的，可是实在是太贵太贵，并不适合做仓库盘。</p>
+<h2 id="其他一些杂项"><a href="#其他一些杂项" class="headerlink" title="其他一些杂项"></a>其他一些杂项</h2><p>　　在上面几节中，提到了Gitlab的CI。除了Web服务之外，CI还需要专门的测试机，这个肯定也只能用虚拟机来搞了。好在Gitlab的CI支持在Docker里面跑任务，直接跑在真实的机子上和虚拟机里面倒没太大的区别。<br>　　关于CI，后面我可能会单独写一篇文章来介绍。这次主要介绍的还是网络和硬件的架构。为了涵盖尽可能多的平台，总共创建了3个虚拟机，分别对应Linux，Windows，macOS。其中，Linux和Windows因为都支持Container，所以任务都是跑在Docker里面的。macOS比较特殊，本身它是不支持在Linux上虚拟化的。好在PVE底层是KVM，而有人专门做了KVM虚拟化macOS的方案，就被我拿来用了。现在这套方案甚至被做成了一键脚本。效果还是非常好的，系统升级也没有问题。可惜的是因为限制死了虚拟CPU类型，所以不支持嵌套虚拟化。再加上macOS不支持原生Container（macOS上的Container实际上是Linux Container），所以macOS上的任务只能直接跑在虚拟机上面了。期待后面Docker可以推出macOS的原生Container。除了上面那三个虚拟机，我还装了一台树莓派，用来支持ARM架构，系统当然是Linux。起初我是打算用QEMU来起ARM和MIPS的模拟器的，可惜怎么配都无法成功，就放弃了。最后还是用了廉价的ARM硬件来涵盖ARM平台。（性能实在太差了，还不如一个单核的x86虚拟机……）后期如果ARM版的Windows持续完善的话，比如有了本地的C++编译器，不排除再搞一台ARM设备来跑Windows。当然，MIPS也是一样，只要有合适的廉价开发板，也可以搞一台。加上这些东西之后，基本就是最后的成品了：<br><img src="/zh-CN/%E9%98%BF%E5%8A%A0%E6%96%AF%E5%9F%8E/home-server-based-on-pve/3.13.webp" alt="3.13"></p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>　　这篇文章基本上真实的记录了我整个搭建的过程，虽然顺序可能会稍微有点差别。说实话，整一套系统除了一次大故障之外，稳定运行到今天我还是很自豪的。因为前期经过了非常多的思考和验证，即使整个系统已经如此复杂，但是整体维护起来还算简单。唯独麻烦的是起步，尤其是在虚拟机里面装软路由这一步，相当有挑战，以至于我不太想再做第二次。<br>　　因为条件和资源实在有限，我的需求又太多，最后不知不觉就变成了这样。回头在来看，有些设计还是非常蠢的。唯一的一次故障出在过年，家里的服务器突然连不上了，我在外地竟然束手无策，一度怀疑是不是停电了。后来回来才发现是机子的系统盘满了……这个时候就感受到把所有的东西都放在一台机器里的弊端了，尤其是我连整个网络的核心，路由器都装在了虚拟机里面，一旦作为host的PVE挂了，那所有东西都挂了。同时，我也深深感受到了IPMI的重要性，如果这个时候我的主板带IPMI，并且还可以访问的话，那我就可以远程解决这个问题了。<br>　　后面这个结构会调整吗，当然还是会的。在体验了一把各种玩法之后，我也会逐渐回归理性……啊，不对，好像用理性这个词不太好，应该会回归合理方案。在条件允许的情况下，把路由器还有NAS都独立出来，不能再搞这样ALL in One的方案了。<br>　　不过，前提是，我得先努力有一个大house。😂</p>
+
+    </div>
+  </div>
+
+  
+    
+  <div class="sea-prev-next-wrapper">
+    
+      <div class="prev">
+        <svg t="1725418977480" class="sea-svg-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4239" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M384 512L731.733333 202.666667c17.066667-14.933333 19.2-42.666667 4.266667-59.733334-14.933333-17.066667-42.666667-19.2-59.733333-4.266666l-384 341.333333c-10.666667 8.533333-14.933333 19.2-14.933334 32s4.266667 23.466667 14.933334 32l384 341.333333c8.533333 6.4 19.2 10.666667 27.733333 10.666667 12.8 0 23.466667-4.266667 32-14.933333 14.933333-17.066667 14.933333-44.8-4.266667-59.733334L384 512z" p-id="4240"></path></svg>
+        <a class="link" href="/zh-CN/%E9%99%86%E8%A1%8C%E9%B8%9F%E6%A3%AE/archive-about-hackers-2012-01-19-tieba/">
+          [存档]关于那些Hacker们所想到的（2012-01-19 贴吧）
+        </a>
+      </div>
+    
+    
+      <div class="next">
+        <a class="link" href="/zh-CN/%E5%9F%BA%E8%90%A8%E5%B0%94%E6%9D%91/regular-update-and-maintenance/">
+          常规更新与维护 （2020-03-31 更新）
+        </a>
+        <svg t="1725418993065" class="sea-svg-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6832" xmlns:xlink="http://www.w3.org/1999/xlink" width="200" height="200"><path d="M731.733333 480l-384-341.333333c-17.066667-14.933333-44.8-14.933333-59.733333 4.266666-14.933333 17.066667-14.933333 44.8 4.266667 59.733334L640 512 292.266667 821.333333c-17.066667 14.933333-19.2 42.666667-4.266667 59.733334 8.533333 8.533333 19.2 14.933333 32 14.933333 10.666667 0 19.2-4.266667 27.733333-10.666667l384-341.333333c8.533333-8.533333 14.933333-19.2 14.933334-32s-4.266667-23.466667-14.933334-32z" p-id="6833"></path></svg>
+      </div>
+    
+  </div>
+
+  
+</article>
+
+
+  
+
+  
+    <section id="giscus-comment" class="sea-page-card-wrapper"></section>
+
+<script>
+  function createGusicScript() {
+    const container = document.querySelector("#giscus-comment");
+    const themeKey = getThemeKey();
+    const giscus_theme = themeKey || THEME_MODE_LIGHT;
+    const giscus_lang = "zh-CN" || "en";
+    const giscus_repo = "QShen3/qshen3.github.io";
+    const giscus_repo_id = "R_kgDOQ1fOYA";
+    const giscus_category = "Announcements";
+    const giscus_category_id = "DIC_kwDOQ1fOYM4C03q7";
+    const giscus_mapping = "pathname";
+    const giscus_strict = "0";
+    const giscus_reactions_enabled = "1";
+    const giscus_emit_metadata = "0";
+    const giscus_input_position = "bottom";
+    const giscus_loading = "lazy";
+    let script = document.createElement("script");
+    script.src = "https://giscus.app/client.js";
+    script.setAttribute("data-repo", giscus_repo);
+    script.setAttribute("data-repo-id", giscus_repo_id);
+    script.setAttribute("data-category", giscus_category);
+    script.setAttribute("data-category-id", giscus_category_id);
+    script.setAttribute("data-mapping", giscus_mapping);
+    script.setAttribute("data-strict", giscus_strict);
+    script.setAttribute("data-reactions-enabled", giscus_reactions_enabled);
+    script.setAttribute("data-emit-metadata", giscus_emit_metadata);
+    script.setAttribute("data-input-position", giscus_input_position);
+    script.setAttribute("data-theme", giscus_theme);
+    script.setAttribute("data-lang", giscus_lang);
+    script.setAttribute("data-loading", giscus_loading);
+    script.setAttribute("crossorigin", "anonymous");
+    script.defer = true;
+    container && container.appendChild(script);
+  }
+  createGusicScript();
+</script>
+  
+
+
+<script defer>
+  document.addEventListener('DOMContentLoaded', function () {
+    const toggleIcon = document.querySelector('.sea-article-catalog-title .sea-svg-icon');
+    const tocContent = document.querySelector('.sea-article-catalog > .toc');
+    if (toggleIcon && tocContent) {
+      toggleIcon.addEventListener('click', function () {
+        tocContent.classList.toggle('sea-article-catalog-show');
+        toggleIcon.classList.toggle('sea-svg-icon-rotate');
+      });
+    }
+  });
+</script>
+  </main>
+  <footer id="sea-footer-container">
+  <div class="sea-footer-row">
+    <div class="sea-footer-menu-link">
+      
+        <a
+          class="sea-footer-link"
+          
+          href="mailto:qazxdrcssc2006@163.com"
+        >
+          Email
+        </a>
+        <span class="sea-footer-link__dot">·</span>
+      
+        <a
+          class="sea-footer-link"
+          
+            target="_blank"
+          
+          href="https://github.com/QShen3"
+        >
+          Github
+        </a>
+        <span class="sea-footer-link__dot">·</span>
+      
+    </div>
+  </div>
+  
+  
+  <div class="sea-footer-row">
+    <div class="sea-footer-copyright">
+      <span>©</span>
+      
+        2020-2026
+      
+      <span>·</span>
+      Shen
+    </div>
+    <span class="split-line">|</span>
+    <div class="sea-footer-theme-by">
+      Theme by <a class="theme" href="https://github.com/hai-zou/hexo-theme-sea" target="_blank">Sea</a>
+    </div>
+  </div>
+</footer>
+
+  
+<script src="/js/main.js" defer></script>
+
+
+<script src="/js/theme.js" defer></script>
+
+</body>
+</html>
